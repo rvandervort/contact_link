@@ -19,24 +19,8 @@ object ContactLink {
 
 
   def getContactsFromFile(fileName: String):  List[Contact] = {
-    val contactList = CSVReader(fileName).toList
-
-   contactList.map(csvToContact)
-  }
-
-  def csvToContact(csv: Array[String]): Contact = {
-    Contact(
-      csv(0),  // id
-      csv(1),  // firstName
-      csv(2),  // lastName
-      csv(3),  // phone
-      csv(4),  // email
-      csv(5),  // address1
-      csv(6),  // address2
-      csv(7),  // zipCode
-      csv(8),  // city
-      csv(9)   // state
-    )
+    // Assumes fields in file match layout of Contact constructor
+    CSVReader.readAs[Contact](fileName).toList
   }
 }
 
