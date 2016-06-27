@@ -24,15 +24,9 @@ object WeightedComparison {
   def basic_check(property_a: String, property_b: String) =
     if (equivalent(property_a, property_b)) 100.00 else 0.00
 
-  def clean_phone(phone: String): String =
-    phone.filterNot("-. xX)(+" contains _)
-
-  def clean_address(address: String) =
-    address.filterNot("# ." contains _)
-
   def phone(contactA: Contact, contactB: Contact): Double =
-    if (equivalent(clean_phone(contactA.phone), clean_phone(contactB.phone))) 100.0 else 0.0
+    if (equivalent(contactA.phone, contactB.phone)) 100.0 else 0.0
 
   def address_line(address_a: String, address_b: String): Double =
-    if (equivalent(clean_address(address_a),clean_address(address_b))) 100.0 else 0.0
+    if (equivalent(address_a,address_b)) 100.0 else 0.0
 }
