@@ -28,9 +28,9 @@ object ContactLink extends DataCleaner {
 
   def cleanContact(contact: Contact): Contact = {
     contact.copy(
-      phone     =  clean_phone(contact.phone),
-      address1  =  clean_address(contact.address1),
-      address2  =  clean_address(contact.address2)
+      phone     =  cleanPhone(contact.phone),
+      address1  =  cleanAddress(contact.address1),
+      address2  =  cleanAddress(contact.address2)
     )
   }
 

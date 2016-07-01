@@ -4,9 +4,9 @@ import com.rockymadden.stringmetric.similarity.LevenshteinMetric
 
 package object cleansing {
   trait DataCleaner {
-    def clean_phone(phone: String): String = phone.filterNot("-. xX)(+" contains _)
+    def cleanPhone(phone: String): String = phone.filterNot("-. xX)(+" contains _)
 
-    def clean_address(address: String) = address.filterNot("# ." contains _)
+    def cleanAddress(address: String) = address.filterNot("# ." contains _)
   }
 }
 
