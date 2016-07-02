@@ -21,7 +21,7 @@ object WeightedComparison extends BasicComparisons {
     result
   }
 
-  def check(value1: String, value2: String) =
+  def check(value1: String, value2: String): Double =
     if (equivalent(value1, value1)) 100.0 else 0.00
 
 

@@ -6,7 +6,7 @@ package object cleansing {
   trait DataCleaner {
     def cleanPhone(phone: String): String = phone.filterNot("-. xX)(+" contains _)
 
-    def cleanAddress(address: String) = address.filterNot("# ." contains _)
+    def cleanAddress(address: String): String = address.filterNot("# ." contains _)
   }
 }
 
