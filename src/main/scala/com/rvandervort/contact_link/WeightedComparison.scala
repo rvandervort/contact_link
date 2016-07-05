@@ -4,34 +4,32 @@ import com.rvandervort.contact_link.comparisons._
 import scala.math._
 
 object WeightedComparison extends BasicComparisons {
+  type Weight = Double
+  type FieldName = String
+  type Processor = (String, String) => Double
+
   def compare(contactA: Contact, contactB: Contact): ComparisonResult = {
     val result = new ComparisonResult()
 
-    val weights: Map[String, Double] = Map(
-      "email"     -> 0.25,
-      "phone"     -> 0.25,
-      "lastName"  -> 0.15,
-      "firstName" -> 0.15,
-      "zipCode"   -> 0.10,
-      "address1"  -> 0.05,
-      "address2"  -> 0.05,
-      "city"      -> 0.025,
-      "state"     -> 0.025
+    val processors: Map[FieldName, (Weight, Processor)] = Map(
+      "email"     ->  (0.25, check),
+      "phone"     ->  (0.25, check),
+      "lastName"  ->  (0.15, checkDistance),
+      "firstName" ->  (0.15, checkDistance),
+      "zipCode"   ->  (0.10, check),
+      "address1"  ->  (0.05, check),
+      "address2"  ->  (0.05, check),
+      "city"      ->  (0.025, check),
+      "state"     ->  (0.025, check)
     )
 
-    def score(propertyName: String, value1: String, value2: String)(f: (String, String) => Double) = {
-      result.addScore(propertyName, f(value1, value2) * weights(propertyName))
-    }
+    Contact.zip(contactA,contactB).filterKeys(_ != "id").foreach {
+      case (fieldName, valueTuple) =>
+        val func = processors(fieldName)._2
+        val weight = processors(fieldName)._1
 
-    score ("email"     , contactA.email     , contactB.email    ) (check        )
-    score ("phone"     , contactA.phone     , contactB.phone    ) (check        )
-    score ("lastName"  , contactA.lastName  , contactB.lastName ) (checkDistance)
-    score ("firstName" , contactA.firstName , contactB.firstName) (checkDistance)
-    score ("zipCode"   , contactA.zipCode   , contactB.zipCode  ) (check        )
-    score ("address1"  , contactA.address1  , contactB.address1 ) (check        )
-    score ("address2"  , contactA.address2  , contactB.address2 ) (check        )
-    score ("city"      , contactA.city      , contactB.city     ) (check        )
-    score ("state"     , contactA.state     , contactB.state    ) (check        )
+        result.addScore(fieldName, func(valueTuple._1, valueTuple._2) * weight)
+    }
 
     result
   }
