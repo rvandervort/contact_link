@@ -39,7 +39,7 @@ object WeightedComparison extends BasicComparisons {
 
   def checkDistance(value1: String, value2: String): Double = {
     distance(value1, value2) match {
-      case Some(edits) => (max(value1.length, value2.length) - edits).toDouble
+      case Some(edits) =>  ((1 - (edits / max(value1.length, value2.length))) * 100).toDouble
       case None        => 0.0
     }
   }
